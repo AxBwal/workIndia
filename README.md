@@ -1,30 +1,34 @@
-# WorkIndia Assignment - SDE API Round - IRCTC
 
-This project is a Train Booking API built with Node.js, Express, Prisma, and PostgreSQL. It allows users to book train seats, with proper seat capacity management, user authentication, and more.
+
+# SDE API Round - IRCTC
+
+This project is a Train Booking API built with Node.js, Express, Prisma, and PostgreSQL. It allows users to book train seats, manage seat capacity, and handle user authentication and transactions.
 
 ## Features
 
-- User authentication with JWT
-- Seat booking system
-- Transaction management for seat availability
-- Prisma ORM for database management
+- **User authentication** using JWT
+- **Seat booking system** with real-time availability
+- **Transaction management** for ensuring seat availability
+- **Prisma ORM** for database interaction
 
 ## Prerequisites
 
-Before you begin, ensure you have met the following requirements:
+Before you begin, ensure you have the following installed:
 
-- Node.js installed (version 14.x or later)
-- PostgreSQL installed and running
-- Prisma CLI installed globally (optional but recommended)
+- **Node.js** (version 14.x or later)
+- **PostgreSQL** (running on your system)
+- **Prisma CLI** (optional but recommended for database management)
 
 ## Installation
+
+Follow these steps to set up and run the project:
 
 ### 1. Clone the repository
 
 ```bash
 git clone https://github.com/AxBwal/workIndia.git
+
 ```
-````
 
 ### 2. Install dependencies
 
@@ -32,21 +36,19 @@ git clone https://github.com/AxBwal/workIndia.git
 npm install
 ```
 
-### 3. Set up the environment variables
+### 3. Set up environment variables
 
-Create a `.env` file in the root of the project and add the following:
+Create a `.env` file in the root directory and add the following environment variables:
 
 ```bash
-PORT=3000  # Or any other port number
-JWT_SECRET=your_secret_key
-DATABASE_URL=postgresql://username:password@localhost:5432/database_name?schema=public
+PORT=3000  # Specify your preferred port number
+JWT_SECRET=your_secret_key  # Replace with a secure secret key for JWT
+DATABASE_URL=postgresql://username:password@localhost:5432/database_name?schema=public  # Replace with your actual PostgreSQL details
 ```
-
-Replace `username`, `password`, `localhost`, `5432`, and `database_name` with your actual PostgreSQL credentials.
 
 ### 4. Initialize the database with Prisma
 
-Generate the Prisma client and apply the database migrations:
+Generate the Prisma client and run database migrations:
 
 ```bash
 npx prisma generate
@@ -55,17 +57,17 @@ npx prisma migrate dev --name init
 
 ### 5. Run the server
 
-Start the server using the following command:
+Start the development server with the following command:
 
 ```bash
 npm run dev
 ```
 
-The API will now be running at `http://localhost:3000`.
+The API will be available at `http://localhost:3000`.
 
-### 6. Run in production
+### 6. Running in production
 
-To run the server in production mode:
+To start the server in production mode, use:
 
 ```bash
 npm start
@@ -73,22 +75,40 @@ npm start
 
 ## API Endpoints
 
-- **POST /api/v1/signup** - Create a new User. (http://localhost:3000/v1/signup)
-- **POST /api/v1/login** - Login for User. (http://localhost:3000/v1/login)
-- **POST /api/v1/trains** - Create a new train.(http://localhost:3000/v1/createTrain)
-- **POST /api/v1/trains/book/:trainid** - Book seats for a train.(http://localhost:3000/v1/trains/book/{train_id})
-- **GET /api/v1/trains/availability?source=A&destination=B** - Get the list of available trains.(http://localhost:3000/v1/trains/availability?source=A&destination=B)
-- **GET /api/v1/bookings/:booking_id** - Get details of a specific train.(http://localhost:3000/v1/bookings/{booking_id})
+### Authentication
+- **POST /api/v1/signup** - Register a new user.
+  - Example: `http://localhost:3000/api/v1/signup`
+  
+- **POST /api/v1/login** - Log in a user.
+  - Example: `http://localhost:3000/api/v1/login`
+
+### Train Management
+- **POST /api/v1/trains** - Create a new train.
+  - Example: `http://localhost:3000/api/v1/trains`
+  
+- **POST /api/v1/trains/book/:train_id** - Book seats on a specific train.
+  - Example: `http://localhost:3000/api/v1/trains/book/{train_id}`
+
+### Train Availability
+- **GET /api/v1/trains/availability?source=A&destination=B** - Check available trains for a given route.
+  - Example: `http://localhost:3000/api/v1/trains/availability?source=A&destination=B`
+
+### Booking Management
+- **GET /api/v1/bookings/:booking_id** - View details of a specific booking.
+  - Example: `http://localhost:3000/api/v1/bookings/{booking_id}`
 
 ## Running Tests
 
-Currently, no tests are set up. You can configure your own tests in the `test` script in `package.json`.
+No tests have been configured yet. You can add your test cases in the `test` script in the `package.json` file.
 
 ## Technologies Used
 
-- Node.js
-- Express
-- Prisma ORM
-- PostgreSQL
-- JWT for authentication
-- Bcrypt for password hashing
+- **Node.js** - Backend runtime
+- **Express.js** - Web framework
+- **Prisma ORM** - Database interaction
+- **PostgreSQL** - Database
+- **JWT** - Authentication mechanism
+- **Bcrypt** - Password hashing for secure authentication
+
+
+
