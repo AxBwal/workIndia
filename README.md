@@ -22,7 +22,7 @@ Before you begin, ensure you have met the following requirements:
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/workindia-assignment.git
+git clone https://github.com/AxBwal/workIndia.git
 ```
 ````
 
