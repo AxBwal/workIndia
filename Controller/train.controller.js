@@ -2,6 +2,9 @@ const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
+
+const timeRegex = /^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/;
+
 exports.createTrain = async (req, res) => {
   try {
     const {
@@ -12,6 +15,14 @@ exports.createTrain = async (req, res) => {
       arrivaltimesource,
       arrivaltimedestination,
     } = req.body;
+
+    
+    if (!timeRegex.test(arrivaltimesource) || !timeRegex.test(arrivaltimedestination)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid time format. Please provide time in HH:MM:SS format.",
+      });
+    }
 
     const newTrain = await prisma.train.create({
       data: {
@@ -32,16 +43,16 @@ exports.createTrain = async (req, res) => {
       train_id: newTrain.id,
     });
   } catch (error) {
-    console.error('Error adding train:', error); 
-    if (error.code === 'P2002' && error.meta.target.includes('trainname')) {
+    console.error("Error adding train:", error);
+    if (error.code === "P2002" && error.meta.target.includes("trainname")) {
       return res.status(400).json({
         success: false,
-        message: 'Train name already exists. Please choose a unique name.',
+        message: "Train name already exists. Please choose a unique name.",
       });
     }
     res.status(400).json({
       success: false,
-      message: 'Train could not be added',
+      message: "Train could not be added",
       error: error.message,
     });
   }
@@ -60,6 +71,8 @@ exports.trainAvailability = async (req, res) => {
         id: true,
         trainname: true,
         availableSeats: true,
+        arrivaltimesource: true,
+        arrivaltimedestination: true,
       },
     });
 
@@ -68,7 +81,7 @@ exports.trainAvailability = async (req, res) => {
     console.error("Error fetching train availability:", error);
     res.status(500).json({
       success: false,
-      message: 'Could not fetch trains',
+      message: "Could not fetch trains",
       error: error.message,
     });
   }
@@ -80,7 +93,6 @@ exports.trainBooking = async (req, res) => {
     const { noofseats, userid } = req.body;
 
     const result = await prisma.$transaction(async (prisma) => {
-      
       const train = await prisma.train.findUnique({
         where: {
           id: trainid,
@@ -88,14 +100,13 @@ exports.trainBooking = async (req, res) => {
       });
 
       if (!train) {
-        throw new Error('Train not found');
+        throw new Error("Train not found");
       }
 
       if (train.availableSeats < noofseats) {
-        throw new Error('Not enough seats available');
+        throw new Error("Not enough seats available");
       }
 
-     
       const updatedTrain = await prisma.train.update({
         where: { id: trainid },
         data: {
@@ -103,7 +114,6 @@ exports.trainBooking = async (req, res) => {
         },
       });
 
-     
       const booking = await prisma.booking.create({
         data: {
           userid,
@@ -123,12 +133,11 @@ exports.trainBooking = async (req, res) => {
     console.error("Error booking train:", error);
     res.status(500).json({
       success: false,
-      message: 'Booking failed',
+      message: "Booking failed",
       error: error.message,
     });
   }
 };
-
 
 exports.getBookingDetails = async (req, res) => {
   try {
@@ -155,7 +164,7 @@ exports.getBookingDetails = async (req, res) => {
     });
 
     if (!booking) {
-      return res.status(404).json({ message: 'Booking not found' });
+      return res.status(404).json({ message: "Booking not found" });
     }
 
     res.status(200).json({
@@ -171,7 +180,7 @@ exports.getBookingDetails = async (req, res) => {
     console.error("Error fetching booking details:", error);
     res.status(500).json({
       success: false,
-      message: 'Could not fetch booking details',
+      message: "Could not fetch booking details",
       error: error.message,
     });
   }

@@ -29,8 +29,8 @@ model Train {
   destination            String
   availableSeats         Int       @default(0)
   seatcapacity           Int
-  arrivaltimesource      DateTime
-  arrivaltimedestination DateTime
+  arrivaltimesource      String
+  arrivaltimedestination String
   Booking                Booking[]
 }
 
