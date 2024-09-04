@@ -122,11 +122,11 @@ npm start
 - **POST /api/v1/trains/book/:train_id** - Book seats on a specific train.
   - Example:
     ```
-    POST http://localhost:3000/v1/trains/book/0a7309b6-9d10-4ad7-94d6-a09cecc346e5
+    POST http://localhost:3000/v1/trains/book/{train_id}
     Body:
     {
       "noofseats": 490,
-      "userid": "bf8bd19a-40e6-4bc5-bc0e-0c10a4693636"
+      "userid": "user_id"
     }
     ```
 
@@ -143,7 +143,7 @@ npm start
 - **GET /api/v1/bookings/:booking_id** - View details of a specific booking.
   - Example:
     ```
-    GET http://localhost:3000/v1/bookings/f1b6f2ec-ef59-4c24-adcc-fcf4f1cad7e9
+    GET http://localhost:3000/v1/bookings/{booking_id}
     ```
 
 ---
